@@ -6,7 +6,7 @@ const session = require('express-session');
 require('./passport');
 const cors = require("cors");
 const userRoutes = require("./routes/user");
-const courseRoutes = require("./routes/course");
+const productRoutes = require("./routes/product");
 const port = 4000;
 const app = express();
 
@@ -27,7 +27,7 @@ mongoose.connect("mongodb+srv://eunicemarginel:admin1234@ecommerce-api.jq9ucxe.m
 mongoose.connection.once('open', () => console.log('Now connected to MongoDB Atlas.'));
 
 app.use("/users", userRoutes);
-app.use("/courses", courseRoutes);
+app.use("/products", productRoutes);
 
 if(require.main === module){
 	app.listen(process.env.PORT || port, () => {

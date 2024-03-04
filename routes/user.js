@@ -12,9 +12,9 @@ router.post("/register", userController.registerUser);
 
 router.post("/login", userController.loginUser);
 
-router.post('/enroll', verify, userController.enroll)
+router.post('/order', verify, userController.order)
 
-router.get('/getEnrollments', verify, userController.getEnrollments);
+router.get('/getOrders', verify, userController.getOrders);
 
 router.post('/reset-password', verify, userController.resetPassword);
 

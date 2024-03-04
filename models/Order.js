@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
 
-//[SECTION] Schema/Blueprint 
-const enrollmentSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: [true, 'User ID is Required']
     },
-    enrolledCourses: [
+    orderedProducts: [
         {
-            courseId: {
+            productId: {
                 type: String,
-                required: [true, 'Course ID is Required']
+                required: [true, 'Product ID is Required']
             }
         }
     ],
@@ -18,14 +17,14 @@ const enrollmentSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'totalPrice is Required']
     },
-    enrolledOn: {
+    orderedOn: {
         type: Date,
         default: Date.now
     },
     status: {
         type: String,
-        default: 'Enrolled'
+        default: 'Ordered'
     }
 });
 
-module.exports = mongoose.model('Enrollment', enrollmentSchema);
+module.exports = mongoose.model('Order', orderSchema);
