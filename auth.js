@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const secret = "EcommerceAPI";
 
+// Token Creation
 module.exports.createAccessToken = (user) => {
 	const data = {
 		id : user._id,
@@ -11,13 +12,14 @@ module.exports.createAccessToken = (user) => {
 	return jwt.sign(data, secret, {});
 }
 
+// Token Verification
 module.exports.verify = (req, res, next) => {
 	console.log(req.headers.authorization)
 
 	let token = req.headers.authorization
 
 	if(typeof token === "undefined"){
-		return res.send({auth: "Failed. No Token"})
+		return res.send({ auth: "Failed. No Token"})
 	} else {
 		console.log(token);
 		token = token.slice(7, token.length)
@@ -34,30 +36,27 @@ module.exports.verify = (req, res, next) => {
 				console.log(decodedToken)
 
 				req.user = decodedToken;
-
 				next();
 			}
 		})
 	}
 }
 
+// Verify Admin
 module.exports.verifyAdmin = (req, res, next) => {
-	if(req.user.isAdmin){
+	// Check if req.user exists and has isAdmin property
+	if (req.user && req.user.isAdmin) {
+		next(); // User is admin, proceed to next middleware
+	} else {
+		// User is not admin, send forbidden response
+		return res.status(403).send("You do not have the rights to do this.");
+	}
+};
+
+module.exports.isLoggedIn = (req, res, next) => {
+	if (req.user) {
 		next();
 	} else {
-		return res.status(403).send({
-			auth: "Failed",
-			message: "Action Forbidden"
-		})
+		res.standStatus(401);
 	}
-		console.log("result from verifyAdmin method");
-		console.log(req.user);
-	}
-
-	module.exports.isLoggedIn = (req, res, next) => {
-		if (req.user) {
-			next();
-		} else {
-			res.standStatus(401);
-		}
-	}
+}

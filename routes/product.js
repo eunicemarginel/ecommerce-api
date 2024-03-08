@@ -1,24 +1,34 @@
-const express = require("express");
-const productController = require("../controllers/product");
-const auth = require("../auth");
+const express = require('express');
 const router = express.Router();
-const {verify, verifyAdmin} = auth;
+const productController = require('../controllers/product');
 
-router.post("/", verify, verifyAdmin, productController.addProduct); 
+const {verify, verifyAdmin} = require("../auth");
 
-router.get("/all", verify, verifyAdmin, productController.getAllProducts);
+// Create Product (Admin Only)
+router.post('/', verify, verifyAdmin, productController.createProduct);
 
-router.get("/", productController.getAllActive);
+// Retrieve All Products (Admin Only)
+router.get('/', verify, verifyAdmin, productController.getAllProducts);
 
-router.get("/:productId", productController.getProduct);
+// Retrieve All Active Products
+router.get('/active', productController.getActiveProducts);
 
-router.patch("/:productId", verify, verifyAdmin, productController.updateProduct);
+// Retrieve Single Product
+router.get('/:productId', productController.getSingleProduct);
 
-router.patch("/:productId/archive", verify, verifyAdmin, productController.archiveProduct);
+// Update Product Information (Admin Only)
+router.patch('/:productId/update', verify, verifyAdmin, productController.updateProduct);
 
-router.patch("/:productId/activate", verify, verifyAdmin, productController.activateProduct);
+// Archive Product (Admin Only)
+router.patch('/:productId/archive', verify, verifyAdmin, productController.archiveProduct);
 
-router.post('/search', productController.searchProductByName);
+// Activate Product (Admin Only)
+router.patch('/:productId/activate', verify, verifyAdmin, productController.activateProduct);
 
+// Search Products by Name
+router.post('/searchByName', productController.searchProductsByName);
+
+// Search Products by Price Range
+router.post('/searchByPrice', productController.searchProductsByPriceRange);
 
 module.exports = router;

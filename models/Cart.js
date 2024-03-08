@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const orderSchema = new mongoose.Schema({
+const cartSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
         required: true
     },
-    productsOrdered: [{
+    cartItems: [{
         productId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product', // Reference to the Product model
@@ -29,13 +29,9 @@ const orderSchema = new mongoose.Schema({
     orderedOn: {
         type: Date,
         default: Date.now
-    },
-    status: {
-        type: String,
-        default: 'Pending'
     }
 });
 
-const Order = mongoose.model('Order', orderSchema);
+const Cart = mongoose.model('Cart', cartSchema);
 
-module.exports = Order;
+module.exports = Cart;

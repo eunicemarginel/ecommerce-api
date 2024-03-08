@@ -8,17 +8,18 @@ router.get("/details", verify, userController.getProfile);
 
 router.post("/checkEmail", userController.checkEmailExists);
 
-router.post("/register", userController.registerUser);
+router.post("/", userController.registerUser);
 
 router.post("/login", userController.loginUser);
 
-router.post('/order', verify, userController.order)
-
-router.get('/getOrders', verify, userController.getOrders);
+//router.post('/request-password-reset', verify, userController.requestPasswordReset);
 
 router.post('/reset-password', verify, userController.resetPassword);
 
 router.put('/profile', verify, userController.updateProfile);
+
+router.post('/confirm-registration', verify, userController.sendRegistrationConfirmation);
+
 
 router.get('/google', 
 	passport.authenticate('google', {
